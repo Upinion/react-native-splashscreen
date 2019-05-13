@@ -65,30 +65,32 @@ public class RCTSplashScreen extends ReactContextBaseJavaModule implements Lifec
 
     private void removeSplashScreen() {
         Activity currentActivity = getCurrentActivity();
-        currentActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                if (splashDialog != null && splashDialog.isShowing()) {
-                    AlphaAnimation fadeOut = new AlphaAnimation(1, 0);
-                    fadeOut.setDuration(1000);
-                    View view = ((ViewGroup)splashDialog.getWindow().getDecorView()).getChildAt(0);
-                    view.startAnimation(fadeOut);
-                    fadeOut.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                        }
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            splashDialog.dismiss();
-                            splashDialog = null;
-                            splashImageView = null;
-                        }
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-                        }
-                    });
-                }
-            }
-        });
+    if (currentActivity != null) {
+	currentActivity.runOnUiThread(new Runnable() {
+	    public void run() {
+		if (splashDialog != null && splashDialog.isShowing()) {
+		    AlphaAnimation fadeOut = new AlphaAnimation(1, 0);
+		    fadeOut.setDuration(1000);
+		    View view = ((ViewGroup)splashDialog.getWindow().getDecorView()).getChildAt(0);
+		    view.startAnimation(fadeOut);
+		    fadeOut.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+			}
+			@Override
+			public void onAnimationEnd(Animation animation) {
+			    splashDialog.dismiss();
+			    splashDialog = null;
+			    splashImageView = null;
+			}
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+		    });
+		}
+	    }
+	});
+    }
     }
 
     private int getSplashId() {
